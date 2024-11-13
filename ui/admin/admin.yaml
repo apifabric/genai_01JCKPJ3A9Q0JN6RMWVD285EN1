@@ -1,0 +1,302 @@
+about:
+  date: November 13, 2024 21:24:29
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 8
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Alert:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: project_id
+    - name: message
+    - name: severity_level
+    - name: triggered_at
+      type: DATETIME
+    description: Alerts related to compliance checks and assessments.
+    info_list: Alerts related to compliance checks and assessments.
+    tab_groups:
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Alert
+    user_key: id
+  Assessment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: control_id
+    - name: result
+    - name: comments
+    - name: date_assessed
+      type: DATETIME
+    description: Stores assessment results for controls.
+    info_list: Stores assessment results for controls.
+    tab_groups:
+    - direction: toone
+      fks:
+      - control_id
+      name: control
+      resource: Control
+    type: Assessment
+    user_key: id
+  ComplianceRequirement:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: requirement_text
+    - name: regulation_source
+    description: Stores compliance requirements referenced by controls.
+    info_list: Stores compliance requirements referenced by controls.
+    type: ComplianceRequirement
+    user_key: id
+  Control:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: project_id
+    - name: description
+    - name: implementation_status
+    - name: id
+    description: Defines security controls within projects.
+    info_list: Defines security controls within projects.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - control_id
+      name: AssessmentList
+      resource: Assessment
+    - direction: tomany
+      fks:
+      - control_id
+      name: RiskList
+      resource: Risk
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Control
+    user_key: name
+  Incident:
+    attributes:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+    - name: project_id
+    - name: incident_date
+      type: DATETIME
+    - name: resolution_status
+    - name: id
+    description: Records security incidents associated with a project.
+    info_list: Records security incidents associated with a project.
+    tab_groups:
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Incident
+    user_key: description
+  Log:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: project_id
+    - name: event_details
+    - name: logged_at
+      type: DATETIME
+    description: Logs related to security events of projects.
+    info_list: Logs related to security events of projects.
+    tab_groups:
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Log
+    user_key: id
+  Project:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: description
+    - name: start_date
+      type: DATE
+    - name: end_date
+      type: DATE
+    - name: id
+    description: Represents a security compliance project.
+    info_list: Represents a security compliance project.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - project_id
+      name: AlertList
+      resource: Alert
+    - direction: tomany
+      fks:
+      - project_id
+      name: ControlList
+      resource: Control
+    - direction: tomany
+      fks:
+      - project_id
+      name: IncidentList
+      resource: Incident
+    - direction: tomany
+      fks:
+      - project_id
+      name: LogList
+      resource: Log
+    - direction: tomany
+      fks:
+      - project_id
+      name: ThreatList
+      resource: Threat
+    - direction: tomany
+      fks:
+      - project_id
+      name: VulnerabilityList
+      resource: Vulnerability
+    type: Project
+    user_key: name
+  Provider:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: contact_info
+    - name: service_description
+    - name: id
+    description: Represents security service providers.
+    info_list: Represents security service providers.
+    type: Provider
+    user_key: name
+  Risk:
+    attributes:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+    - name: control_id
+    - name: impact
+    - name: mitigation_strategy
+    - name: id
+    - name: likelihood
+    description: Captures identified risks for controls.
+    info_list: Captures identified risks for controls.
+    tab_groups:
+    - direction: toone
+      fks:
+      - control_id
+      name: control
+      resource: Control
+    type: Risk
+    user_key: description
+  Threat:
+    attributes:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+    - name: project_id
+    - name: threat_level
+    - name: id
+    description: Details potential threats to projects.
+    info_list: Details potential threats to projects.
+    tab_groups:
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Threat
+    user_key: description
+  User:
+    attributes:
+    - label: ' username*'
+      name: username
+      search: true
+      sort: true
+    - name: email
+    - name: created_at
+      type: DATETIME
+    - name: id
+    - name: password
+    description: Stores user account information.
+    info_list: Stores user account information.
+    type: User
+    user_key: username
+  Vulnerability:
+    attributes:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+    - name: project_id
+    - name: severity
+    - name: remediation_plan
+    - name: id
+    description: Identifies vulnerabilities in projects.
+    info_list: Identifies vulnerabilities in projects.
+    tab_groups:
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Vulnerability
+    user_key: description
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

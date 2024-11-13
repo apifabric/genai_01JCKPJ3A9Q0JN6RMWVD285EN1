@@ -1,0 +1,502 @@
+about:
+  date: November 13, 2024 21:24:29
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Alert:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: project_id
+      template: integer
+      type: INTEGER
+    - name: message
+      template: text
+      type: VARCHAR
+    - name: severity_level
+      template: text
+      type: VARCHAR
+    - name: triggered_at
+      type: DATETIME
+    description: Alerts related to compliance checks and assessments.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Alerts related to compliance checks and assessments.
+    label: Alert
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Alert
+  Assessment:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: control_id
+      template: integer
+      type: INTEGER
+    - name: result
+      template: text
+      type: VARCHAR
+    - name: comments
+      template: text
+      type: VARCHAR
+    - name: date_assessed
+      type: DATETIME
+    description: Stores assessment results for controls.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Stores assessment results for controls.
+    label: Assessment
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - control_id
+      name: control
+      resource: Control
+    type: Assessment
+  ComplianceRequirement:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: requirement_text
+      template: text
+      type: VARCHAR
+    - name: regulation_source
+      template: text
+      type: VARCHAR
+    description: Stores compliance requirements referenced by controls.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Stores compliance requirements referenced by controls.
+    label: ComplianceRequirement
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: ComplianceRequirement
+  Control:
+    columns:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: project_id
+      template: integer
+      type: INTEGER
+    - name: description
+      template: text
+      type: VARCHAR
+    - name: implementation_status
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Defines security controls within projects.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Defines security controls within projects.
+    label: Control
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - control_id
+      name: AssessmentList
+      resource: Assessment
+    - direction: tomany
+      fks:
+      - control_id
+      name: RiskList
+      resource: Risk
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Control
+  Incident:
+    columns:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: project_id
+      template: integer
+      type: INTEGER
+    - name: incident_date
+      type: DATETIME
+    - name: resolution_status
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Records security incidents associated with a project.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: description
+    hidden: {}
+    home_template: home_template.html
+    info_list: Records security incidents associated with a project.
+    label: Incident
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Incident
+  Log:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: project_id
+      template: integer
+      type: INTEGER
+    - name: event_details
+      template: text
+      type: VARCHAR
+    - name: logged_at
+      type: DATETIME
+    description: Logs related to security events of projects.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Logs related to security events of projects.
+    label: Log
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Log
+  Project:
+    columns:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: VARCHAR
+    - name: start_date
+      type: DATE
+    - name: end_date
+      type: DATE
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a security compliance project.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents a security compliance project.
+    label: Project
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - project_id
+      name: AlertList
+      resource: Alert
+    - direction: tomany
+      fks:
+      - project_id
+      name: ControlList
+      resource: Control
+    - direction: tomany
+      fks:
+      - project_id
+      name: IncidentList
+      resource: Incident
+    - direction: tomany
+      fks:
+      - project_id
+      name: LogList
+      resource: Log
+    - direction: tomany
+      fks:
+      - project_id
+      name: ThreatList
+      resource: Threat
+    - direction: tomany
+      fks:
+      - project_id
+      name: VulnerabilityList
+      resource: Vulnerability
+    type: Project
+  Provider:
+    columns:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: contact_info
+      template: text
+      type: VARCHAR
+    - name: service_description
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents security service providers.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents security service providers.
+    label: Provider
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: Provider
+  Risk:
+    columns:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: control_id
+      template: integer
+      type: INTEGER
+    - name: impact
+      template: text
+      type: VARCHAR
+    - name: mitigation_strategy
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    - name: likelihood
+      template: text
+      type: VARCHAR
+    description: Captures identified risks for controls.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: description
+    hidden: {}
+    home_template: home_template.html
+    info_list: Captures identified risks for controls.
+    label: Risk
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - control_id
+      name: control
+      resource: Control
+    type: Risk
+  Threat:
+    columns:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: project_id
+      template: integer
+      type: INTEGER
+    - name: threat_level
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Details potential threats to projects.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: description
+    hidden: {}
+    home_template: home_template.html
+    info_list: Details potential threats to projects.
+    label: Threat
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Threat
+  User:
+    columns:
+    - label: ' username*'
+      name: username
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: email
+      template: text
+      type: VARCHAR
+    - name: created_at
+      type: DATETIME
+    - name: id
+      template: integer
+      type: INTEGER
+    - name: password
+      template: text
+      type: VARCHAR
+    description: Stores user account information.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: username
+    hidden: {}
+    home_template: home_template.html
+    info_list: Stores user account information.
+    label: User
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: User
+  Vulnerability:
+    columns:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: project_id
+      template: integer
+      type: INTEGER
+    - name: severity
+      template: text
+      type: VARCHAR
+    - name: remediation_plan
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Identifies vulnerabilities in projects.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: description
+    hidden: {}
+    home_template: home_template.html
+    info_list: Identifies vulnerabilities in projects.
+    label: Vulnerability
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - project_id
+      name: project
+      resource: Project
+    type: Vulnerability
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

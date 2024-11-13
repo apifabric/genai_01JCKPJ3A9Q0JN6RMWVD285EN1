@@ -1,0 +1,39 @@
+<o-form-layout-manager attr="User" mode="dialog" title="USER">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="UserTable" 
+            service="User" 
+            entity="User" 
+            title="USER"
+            keys="id"
+            columns="username;email;created_at;id;password" 
+            header-actions="R;D"
+            visible-columns="username;email;created_at;id;password"  
+            sort-columns="username" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #username attr="username" title=" username*" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #email attr="email" title="email" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #created_at attr="created_at" title="created_at" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column #password attr="password" title="password" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

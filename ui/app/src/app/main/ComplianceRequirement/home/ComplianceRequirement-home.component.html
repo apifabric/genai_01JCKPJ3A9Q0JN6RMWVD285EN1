@@ -1,0 +1,35 @@
+<o-form-layout-manager attr="ComplianceRequirement" mode="dialog" title="COMPLIANCEREQUIREMENT">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="ComplianceRequirementTable" 
+            service="ComplianceRequirement" 
+            entity="ComplianceRequirement" 
+            title="COMPLIANCEREQUIREMENT"
+            keys="id"
+            columns="id;requirement_text;regulation_source" 
+            header-actions="R;D"
+            visible-columns="id;requirement_text;regulation_source"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column #requirement_text attr="requirement_text" title="requirement_text" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #regulation_source attr="regulation_source" title="regulation_source" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

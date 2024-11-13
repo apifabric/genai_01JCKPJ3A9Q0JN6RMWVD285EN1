@@ -1,0 +1,48 @@
+<o-form-layout-manager attr="Risk" mode="tab" title="RISK">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="RiskTable" 
+            service="Risk" 
+            entity="Risk" 
+            title="RISK"
+            keys="id"
+            columns="description;control_id;impact;mitigation_strategy;id;likelihood" 
+            header-actions="R;D"
+            visible-columns="description;control_id;impact;mitigation_strategy;id;likelihood"  
+            sort-columns="description" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #description attr="description" title=" description*" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column attr="control_id" title="control_id">
+    <o-table-cell-renderer-service attr="control_id" 
+        service="Control" entity="ControlType" columns="id;name"
+        parent-keys="id:control_id"
+        value-column="name" keys="control_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #impact attr="impact" title="impact" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #mitigation_strategy attr="mitigation_strategy" title="mitigation_strategy" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column #likelihood attr="likelihood" title="likelihood" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

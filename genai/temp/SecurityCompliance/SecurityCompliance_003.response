@@ -1,0 +1,79 @@
+{
+    "models": [
+        {
+            "classname": "User",
+            "code": "class User(Base):\n    \"\"\"description: Stores user account information.\"\"\"\n    __tablename__ = 'user'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    username = Column(String, unique=True)\n    email = Column(String, unique=True)\n    password = Column(String)\n    created_at = Column(DateTime, default=datetime.utcnow)",
+            "description": "Stores user account information.",
+            "name": "User"
+        },
+        {
+            "classname": "Project",
+            "code": "class Project(Base):\n    \"\"\"description: Represents a security compliance project.\"\"\"\n    __tablename__ = 'project'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    description = Column(String)\n    start_date = Column(Date)\n    end_date = Column(Date)",
+            "description": "Represents a security compliance project.",
+            "name": "Project"
+        },
+        {
+            "classname": "Control",
+            "code": "class Control(Base):\n    \"\"\"description: Defines security controls within projects.\"\"\"\n    __tablename__ = 'control'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    project_id = Column(Integer, ForeignKey('project.id'))\n    name = Column(String)\n    description = Column(String)\n    implementation_status = Column(String)",
+            "description": "Defines security controls within projects.",
+            "name": "Control"
+        },
+        {
+            "classname": "Assessment",
+            "code": "class Assessment(Base):\n    \"\"\"description: Stores assessment results for controls.\"\"\"\n    __tablename__ = 'assessment'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    control_id = Column(Integer, ForeignKey('control.id'))\n    date_assessed = Column(DateTime, default=datetime.utcnow)\n    result = Column(String)\n    comments = Column(String)",
+            "description": "Stores assessment results for controls.",
+            "name": "Assessment"
+        },
+        {
+            "classname": "Risk",
+            "code": "class Risk(Base):\n    \"\"\"description: Captures identified risks for controls.\"\"\"\n    __tablename__ = 'risk'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    control_id = Column(Integer, ForeignKey('control.id'))\n    description = Column(String)\n    likelihood = Column(String)\n    impact = Column(String)\n    mitigation_strategy = Column(String)",
+            "description": "Captures identified risks for controls.",
+            "name": "Risk"
+        },
+        {
+            "classname": "ComplianceRequirement",
+            "code": "class ComplianceRequirement(Base):\n    \"\"\"description: Stores compliance requirements referenced by controls.\"\"\"\n    __tablename__ = 'compliance_requirement'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    requirement_text = Column(String)\n    regulation_source = Column(String)",
+            "description": "Stores compliance requirements referenced by controls.",
+            "name": "ComplianceRequirement"
+        },
+        {
+            "classname": "Provider",
+            "code": "class Provider(Base):\n    \"\"\"description: Represents security service providers.\"\"\"\n    __tablename__ = 'provider'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    contact_info = Column(String)\n    service_description = Column(String)",
+            "description": "Represents security service providers.",
+            "name": "Provider"
+        },
+        {
+            "classname": "Threat",
+            "code": "class Threat(Base):\n    \"\"\"description: Details potential threats to projects.\"\"\"\n    __tablename__ = 'threat'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    project_id = Column(Integer, ForeignKey('project.id'))\n    description = Column(String)\n    threat_level = Column(String)",
+            "description": "Details potential threats to projects.",
+            "name": "Threat"
+        },
+        {
+            "classname": "Vulnerability",
+            "code": "class Vulnerability(Base):\n    \"\"\"description: Identifies vulnerabilities in projects.\"\"\"\n    __tablename__ = 'vulnerability'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    project_id = Column(Integer, ForeignKey('project.id'))\n    description = Column(String)\n    severity = Column(String)\n    remediation_plan = Column(String)",
+            "description": "Identifies vulnerabilities in projects.",
+            "name": "Vulnerability"
+        },
+        {
+            "classname": "Alert",
+            "code": "class Alert(Base):\n    \"\"\"description: Alerts related to compliance checks and assessments.\"\"\"\n    __tablename__ = 'alert'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    project_id = Column(Integer, ForeignKey('project.id'))\n    message = Column(String)\n    severity_level = Column(String)\n    triggered_at = Column(DateTime, default=datetime.utcnow)",
+            "description": "Alerts related to compliance checks and assessments.",
+            "name": "Alert"
+        },
+        {
+            "classname": "Log",
+            "code": "class Log(Base):\n    \"\"\"description: Logs related to security events of projects.\"\"\"\n    __tablename__ = 'log'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    project_id = Column(Integer, ForeignKey('project.id'))\n    event_details = Column(String)\n    logged_at = Column(DateTime, default=datetime.utcnow)",
+            "description": "Logs related to security events of projects.",
+            "name": "Log"
+        },
+        {
+            "classname": "Incident",
+            "code": "class Incident(Base):\n    \"\"\"description: Records security incidents associated with a project.\"\"\"\n    __tablename__ = 'incident'\n    \n    id = Column(Integer, primary_key=True, autoincrement=True)\n    project_id = Column(Integer, ForeignKey('project.id'))\n    description = Column(String)\n    incident_date = Column(DateTime)\n    resolution_status = Column(String)",
+            "description": "Records security incidents associated with a project.",
+            "name": "Incident"
+        }
+    ],
+    "rules": [],
+    "test_data": "from datetime import datetime, date\n\n# Test data for the User class\nuser1 = User(username='jdoe', email='jdoe@example.com', password='passwd123', created_at=datetime.utcnow())\nuser2 = User(username='asmith', email='asmith@example.com', password='securepass', created_at=datetime.utcnow())\nuser3 = User(username='bwilliams', email='bwilliams@example.com', password='mypwd', created_at=datetime.utcnow())\nuser4 = User(username='cjones', email='cjones@example.com', password='pass234', created_at=datetime.utcnow())\n\n# Test data for the Project class\nproject1 = Project(name='PCI Compliance', description='PCI DSS Compliance Project', start_date=date(2023, 1, 15), end_date=date(2023, 6, 15))\nproject2 = Project(name='GDPR Readiness', description='GDPR Act Compliance', start_date=date(2023, 2, 10), end_date=date(2023, 7, 10))\nproject3 = Project(name='HIPAA Audit', description='Health Insurance Portability Audit', start_date=date(2023, 3, 3), end_date=date(2023, 8, 3))\nproject4 = Project(name='SOX Review', description='SOX Act Review Process', start_date=date(2023, 4, 4), end_date=date(2023, 9, 4))\n\n# Test data for the Control class\ncontrol1 = Control(project_id=1, name='Firewall Rules', description='Ensure firewall rules comply with standards', implementation_status='Completed')\ncontrol2 = Control(project_id=2, name='Data Encryption', description='Encrypt personal data at rest', implementation_status='Pending')\ncontrol3 = Control(project_id=3, name='Access Logs', description='Monitor access to critical data', implementation_status='In Progress')\ncontrol4 = Control(project_id=4, name='User Authentication', description='Implement multi-factor authentication', implementation_status='Implemented')\n\n# Test data for the Assessment class\nassessment1 = Assessment(control_id=1, date_assessed=datetime.utcnow(), result='Passed', comments='All rules are effective')\nassessment2 = Assessment(control_id=2, date_assessed=datetime.utcnow(), result='Failed', comments='Data is not encrypted')\nassessment3 = Assessment(control_id=3, date_assessed=datetime.utcnow(), result='Passed', comments='Logs are comprehensive')\nassessment4 = Assessment(control_id=4, date_assessed=datetime.utcnow(), result='Passed', comments='MFA is working correctly')\n\n# Test data for the Risk class\nrisk1 = Risk(control_id=1, description='High traffic may bypass firewall', likelihood='Medium', impact='High', mitigation_strategy='Regular updates and monitoring')\nrisk2 = Risk(control_id=2, description='Sensitive data breach possible', likelihood='High', impact='Critical', mitigation_strategy='Encrypt and restrict access')\nrisk3 = Risk(control_id=3, description='Unauthorized access detected', likelihood='Low', impact='Medium', mitigation_strategy='Routine checks and audits')\nrisk4 = Risk(control_id=4, description='Phishing attempts increasing', likelihood='Medium', impact='High', mitigation_strategy='Strengthen user awareness program')\n\n# Test data for the ComplianceRequirement class\ncompliance_req1 = ComplianceRequirement(requirement_text='Encrypt data in transit', regulation_source='PCI DSS')\ncompliance_req2 = ComplianceRequirement(requirement_text='Anonymize user data', regulation_source='GDPR')\ncompliance_req3 = ComplianceRequirement(requirement_text='Regular access reviews', regulation_source='HIPAA')\ncompliance_req4 = ComplianceRequirement(requirement_text='Report financial anomalies quarterly', regulation_source='SOX')\n\n# Test data for the Provider class\nprovider1 = Provider(name='SecuNet Services', contact_info='contact@secunet.com', service_description='Network Security Solutions')\nprovider2 = Provider(name='DataGuardians', contact_info='info@dataguardians.com', service_description='Data Protection Services')\nprovider3 = Provider(name='SecureLane', contact_info='support@securelane.com', service_description='Threat Intelligence Offerings')\nprovider4 = Provider(name='ShieldTech', contact_info='sales@shieldtech.com', service_description='Comprehensive Security Assessments')\n\n# Test data for the Threat class\nthreat1 = Threat(project_id=1, description='SQL Injection Vulnerability', threat_level='High')\nthreat2 = Threat(project_id=2, description='Distributed Denial of Service', threat_level='Critical')\nthreat3 = Threat(project_id=3, description='Insider Threat', threat_level='Medium')\nthreat4 = Threat(project_id=4, description='Spoofing Attack', threat_level='Low')\n\n# Test data for the Vulnerability class\nvuln1 = Vulnerability(project_id=1, description='Outdated SSL Certificate', severity='High', remediation_plan='Renew certificate')\nvuln2 = Vulnerability(project_id=2, description='Unpatched Software', severity='Critical', remediation_plan='Apply patches immediately')\nvuln3 = Vulnerability(project_id=3, description='Weak Password Policy', severity='Medium', remediation_plan='Enforce stronger passwords')\nvuln4 = Vulnerability(project_id=4, description='Lack of Intrusion Detection', severity='Low', remediation_plan='Implement IDS solution')\n\n# Test data for the Alert class\nalert1 = Alert(project_id=1, message='Unauthorized login attempt detected', severity_level='High', triggered_at=datetime.utcnow())\nalert2 = Alert(project_id=2, message='Security audit recommended', severity_level='Critical', triggered_at=datetime.utcnow())\nalert3 = Alert(project_id=3, message='Potential data leak identified', severity_level='Medium', triggered_at=datetime.utcnow())\nalert4 = Alert(project_id=4, message='Network anomaly detected', severity_level='Low', triggered_at=datetime.utcnow())\n\n# Test data for the Log class\nlog1 = Log(project_id=1, event_details='User authenticated without MFA', logged_at=datetime.utcnow())\nlog2 = Log(project_id=2, event_details='Access granted to restricted area', logged_at=datetime.utcnow())\nlog3 = Log(project_id=3, event_details='Potential malware detected', logged_at=datetime.utcnow())\nlog4 = Log(project_id=4, event_details='Email phishing detected', logged_at=datetime.utcnow())\n\n# Test data for the Incident class\nincident1 = Incident(project_id=1, description='Data breach due to leaked credentials', incident_date=datetime(2023, 1, 20), resolution_status='Resolved')\nincident2 = Incident(project_id=2, description='Downtime due to DDoS attack', incident_date=datetime(2023, 2, 25), resolution_status='Ongoing')\nincident3 = Incident(project_id=3, description='Policy violation reported', incident_date=datetime(2023, 3, 30), resolution_status='Pending Investigation')\nincident4 = Incident(project_id=4, description='Fraudulent activity flagged', incident_date=datetime(2023, 4, 18), resolution_status='Resolved')",
+    "name": "SecurityCompliance"
+}

@@ -1,0 +1,46 @@
+<o-form-layout-manager attr="Assessment" mode="tab" title="ASSESSMENT">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="AssessmentTable" 
+            service="Assessment" 
+            entity="Assessment" 
+            title="ASSESSMENT"
+            keys="id"
+            columns="id;control_id;result;comments;date_assessed" 
+            header-actions="R;D"
+            visible-columns="id;control_id;result;comments;date_assessed"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="control_id" title="control_id">
+    <o-table-cell-renderer-service attr="control_id" 
+        service="Control" entity="ControlType" columns="id;name"
+        parent-keys="id:control_id"
+        value-column="name" keys="control_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #result attr="result" title="result" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #comments attr="comments" title="comments" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #date_assessed attr="date_assessed" title="date_assessed" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>
